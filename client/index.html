@@ -87,7 +87,7 @@
         </p>
 
         <h6>More Examples:</h6>
-        <p style='margin-left: 20px; margin-right:20px;'>
+        <p style='margin-left: 20px; margin-right:20px; margin-bottom: 8px;'>
           [
           &nbsp;
           <a href='?q=The%2FDT%2Fdet%3A2%2Fthe+++++++++++++++dog%2FNN%2Fnsubj%3A3%2Fdog+++++++++++++++chases%2FVBZ%2Froot%3A0%2Fchase+++++++++++++++the%2FDT%2Fdet%3A5%2Fthe+++++++++++++++cat%2FNN%2Fdobj%3A3%2Fcat'>1</a>,
@@ -98,28 +98,30 @@
           &nbsp;
           ]
         </p>
-
-        <h6>Example: Generate annotated sentence with spacy</h6>
         <p style='margin-left: 20px; margin-right:20px;'>
+          Generate annotated sentence with <a href='https://spacy.io/'>spacy</a>:
+          <br />
           <code>
             python -c "import spacy; nlp=spacy.load('en_core_web_sm'); doc=nlp('Angela Merkel lives in Berlin.'); print(' '.join(['/'.join([t.text, t.pos_, f'{t.dep_}:{t.head.i+1 if t.head.i != t.i else 0}', t.tag_, t.lemma_, t.ent_type_]) for t in doc]) + ' ' + ' '.join(['/'.join([f'/{e.start+1}-{e.end}/////', e.text.replace(' ','_'), e.label_, e.kb_id_]) for e in doc.ents]))"
           </code>
         </p>
 
-        <h6>Brat NLP:</h6>
+        <h6>Layout:</h6>
         <p style='margin-left: 20px; margin-right:20px;'>
           Help for modifying the brat layout can be found here: <a href='http://brat.nlplab.org/embed.html#embedding-entity-coll'>http://brat.nlplab.org/embed.html</a>.
         </p>
 
-        <h6>Credits:</h6>
-        <p style='margin-left: 20px; margin-right:20px;''>
+        <h6>About:</h6>
+        <p style='margin-left: 20px; margin-right:20px; margin-bottom: 8px;'>
           This website was built using:
+        </p>
+        <div style='margin-left: 20px; margin-right:20px;'>
           <ul>
             <li>
               parts of the <a href='http://brat.nlplab.org/'>brat nlp</a> framework (<a href='https://github.com/nlplab/brat'>git</a>)
             </li>
             <li>
-              parts of the source code of <a href='http://brat.nlplab.org/embed.html'>http://brat.nlplab.org/embed.html</a>
+              parts of the source code from <a href='http://brat.nlplab.org/embed.html'>http://brat.nlplab.org/embed.html</a>
             </li>
             <li>
               the <a href='https://github.com/exupero/saveSvgAsPng'>saveSvgAsPng</a> project
@@ -131,6 +133,9 @@
               <a href='https://getbootstrap.com/'>Bootstrap</a>
             </li>
           </ul>
+        </div>
+        <p style='margin-right:20px;'>
+          *Created by <a href='https://github.com/remstef'>@remstef</a> (<a href='https://github.com/remstef/a-sent-vis'>source</a>) and published under <a href='https://www.apache.org/licenses/LICENSE-2.0.html'>APLv2</a>.
         </p>
         <!-- END: modal content -->
       </div>
