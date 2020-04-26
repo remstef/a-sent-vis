@@ -1,7 +1,7 @@
 {
-  "name": "asentvis-server",
+  "name": "a-sent-vis",
   "version": "1.0.0",
-  "description": "Annotated Sentence Visualizer: Frontend Server",
+  "description": "a-sent-vis: Annotated Sentence Visualizer -- Frontend Server",
   "main": "index.js",
   "scripts": {
     "watch": "nodemon ./start.js",

@@ -1,9 +1,6 @@
 ######
 ##
-# 1) start: docker-compose -f docker-compose-dev.yml up -d <services>
-# 2) attach: docker attach ...
-# 3) detach: detach with <CTRL-p> <CTRL-q>
-# 4) stop: docker-compose -f docker-compose-dev.yml down
+# start: docker-compose -f docker-compose-dev.yml up -d <service>
 ##
 ######
 version: '2.3'
@@ -13,7 +10,7 @@ networks:
 
 services:
 
-  # BEGIN: frontend
+  # BEGIN: frontend-server
   node:
     image: node:12.16.2
     volumes:
@@ -33,9 +30,9 @@ services:
         npm start
     environment:
       - NODE_ENV=production
-  # END: frontend
+  # END: frontend server
 
-  # BEGIN: frontend development. Connect with docker exec -ti .. bash and run npm run watch
+  # BEGIN: frontend server watch development. Connect with docker exec -ti .. bash and run npm run watch
   watch:
     image: node:12.16.2
     volumes:
@@ -55,9 +52,9 @@ services:
         npm run watch
     environment:
       - NODE_ENV=development
-  # END: frontend
+  # END: frontend server watch development
 
-  # BEGIN: frontend development. Connect with 'docker exec -ti asentvis_bash_1 bash' and run 'npm run watch'
+  # BEGIN: frontend server bash development. Connect with 'docker exec -ti asentvis_bash_1 bash' and run 'npm run watch'
   bash:
     image: node:12.16.2
     volumes:
@@ -72,4 +69,4 @@ services:
     entrypoint: bash
     environment:
       - NODE_ENV=development
-  # END: frontend
+  # END: frontend server bash development
