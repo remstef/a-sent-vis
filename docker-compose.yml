@@ -1,0 +1,75 @@
+######
+##
+# 1) start: docker-compose -f docker-compose-dev.yml up -d <services>
+# 2) attach: docker attach ...
+# 3) detach: detach with <CTRL-p> <CTRL-q>
+# 4) stop: docker-compose -f docker-compose-dev.yml down
+##
+######
+version: '2.3'
+
+networks:
+  anet:
+
+services:
+
+  # BEGIN: frontend
+  node:
+    image: node:12.16.2
+    volumes:
+      - ${PWD}:/opt/project
+    ports:
+      - 3000:3000
+    networks:
+      - anet
+    working_dir: /opt/project/server
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        echo installing modules ...
+        npm install
+        echo starting server ...
+        npm start
+    environment:
+      - NODE_ENV=production
+  # END: frontend
+
+  # BEGIN: frontend development. Connect with docker exec -ti .. bash and run npm run watch
+  watch:
+    image: node:12.16.2
+    volumes:
+      - ${PWD}:/opt/project
+    ports:
+      - 3000:3000
+    networks:
+      - anet
+    working_dir: /opt/project/server
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        echo installing modules ...
+        npm install
+        echo starting server in watch mode ...
+        npm run watch
+    environment:
+      - NODE_ENV=development
+  # END: frontend
+
+  # BEGIN: frontend development. Connect with 'docker exec -ti asentvis_bash_1 bash' and run 'npm run watch'
+  bash:
+    image: node:12.16.2
+    volumes:
+      - ${PWD}:/opt/project
+    ports:
+      - 3000:3000
+    networks:
+      - anet
+    stdin_open: true
+    tty: true
+    working_dir: /opt/project/server
+    entrypoint: bash
+    environment:
+      - NODE_ENV=development
+  # END: frontend

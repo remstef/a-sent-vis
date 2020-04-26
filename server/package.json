@@ -1,0 +1,19 @@
+{
+  "name": "asentvis-server",
+  "version": "1.0.0",
+  "description": "Annotated Sentence Visualizer: Frontend Server",
+  "main": "index.js",
+  "scripts": {
+    "watch": "nodemon ./start.js",
+    "start": "node ./start.js",
+    "test": "echo run 'npm run watch' && exit 1"
+  },
+  "author": "@remstef, Steffen Remus",
+  "license": "APLv2.0",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  }
+}
