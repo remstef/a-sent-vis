@@ -76,7 +76,7 @@
         <!-- BEGIN: modal content -->
         <h6>Description:</h6>
         <p style='margin-left: 20px; margin-right:20px;' align='justify'>
-          An <strong>annotated sentence</strong> consists of tokens and annotations. Annotations can be <strong>attached</strong> to tokens or entered independently with token span information in the form begin-end (end is inclusive). Tokens and annotations are separated by one or more space characters. Annotations are separated by a single / (slash) character. Each annotation type is defined by the field position in the list of annotations. Annotations for a specific annotation type can be skippped (empty field or the _ (underscore) character as annotation value). Annotations are either span annotations or relation annotations. Relation annotations are defined by the annotation value (relation name) and the span id of it's head (ids are starting from 1) separated by a : (colon) character. Relations can only be connected to span annotations (never tokens) and are always connected to the annotation type directly in front of the relation annotation (hence, relation annotations must always occur after a span annotation). Head span ids are referring to the span annotation id of the annotation type. Relation annotations of the same type for the same span annotation (i.e. multiple heads) can be accumulated with ; (semicolon).
+          An <strong>annotated sentence</strong> consists of tokens and annotations. Annotations can be <strong>attached</strong> to tokens or entered <strong>independently</strong> with token span information in the form <strong>begin-end</strong> (end is inclusive). Tokens and annotations are separated by one or more space characters. Annotations are separated by a single / (slash) character. Each <strong>annotation type</strong> is defined by the field position in the list of annotations. Annotations for a specific annotation type can be skippped (empty field or explicitly indicated by a single _ (underscore) character as annotation value). Annotations are either <strong>span annotations or relation annotations</strong>. Relation annotations are defined by the annotation value (relation name) and the span id of it's head (ids are starting from 1) separated by a : (colon) character. Relations can only be connected to span annotations (never tokens) and are always connected to the annotation type directly in front of the relation annotation (hence, relation annotations must always occur after a non-empty span annotation). Head span ids are referring to the span annotation with the given id and the same annotation type (field). Relation annotations of the same type for the same span annotation (i.e. multiple heads) can be accumulated with ; (semicolon).
           <pre>
      word1/span11/span21 word2//span22 word3/span12 ...
 
@@ -84,18 +84,6 @@
 
      word1 word2 word3 word4 word5 /1-2/span1/rel1:2;rel2:3 /3-3/span2 /4-5/span3 ...
           </pre>
-        </p>
-
-        <h6>Generate annotated sentence with spacy:</h6>
-        <p style='margin-left: 20px; margin-right:20px;'>
-          <code>
-            python -c "import spacy; nlp=spacy.load('en_core_web_sm'); doc=nlp('Angela Merkel lives in Berlin.'); print(' '.join(['/'.join([t.text, t.pos_, f'{t.dep_}:{t.head.i+1 if t.head.i != t.i else 0}', t.tag_, t.lemma_, t.ent_type_]) for t in doc]) + ' ' + ' '.join(['/'.join([f'/{e.start+1}-{e.end}/////', e.text.replace(' ','_'), e.label_, e.kb_id_]) for e in doc.ents]))"
-          </code>
-        </p>
-
-        <h6>Brat NLP:</h6>
-        <p style='margin-left: 20px; margin-right:20px;'>
-          Help for modifying the brat layout can be found here: <a href='http://brat.nlplab.org/embed.html#embedding-entity-coll'>http://brat.nlplab.org/embed.html</a>.
         </p>
 
         <h6>More Examples:</h6>
@@ -109,6 +97,18 @@
           <a href='?q=Angela%2FPROPN%2Fcompound%3A2%2FNNP%2F%2F+Merkel%2FPROPN%2Fnsubj%3A9%2FNNP%2F%2F+%28%2FPUNCT%2Fpunct%3A2%2F-LRB-%2F%2F+the%2FDET%2Fdet%3A5%2FDT%2F%2F+chancellor%2FNOUN%2Fappos%3A2%2FNN%2F%2F+of%2FADP%2Fprep%3A5%2FIN%2F%2F+Germany%2FPROPN%2Fpobj%3A6%2FNNP%2F%2F+%29%2FPUNCT%2Fpunct%3A2%2F-RRB-%2F%2F+lives%2FVERB%2FROOT%3A0%2FVBZ%2F%2F+in%2FADP%2Fprep%3A9%2FIN%2F%2F+Berlin%2FPROPN%2Fpobj%3A10%2FNNP%2F%2F+.%2FPUNCT%2Fpunct%3A9%2F.%2F%2F+%2F1-2%2F%2F%2F%2F%2F%2F%2FAngela_Merkel%2FPERSON%2F+%2F7-7%2F%2F%2F%2F%2F%2F%2FGermany%2FGPE%2F+%2F11-11%2F%2F%2F%2F%2F%2F%2FBerlin%2FGPE%2F'>3</a>
           &nbsp;
           ]
+        </p>
+
+        <h6>Example: Generate annotated sentence with spacy</h6>
+        <p style='margin-left: 20px; margin-right:20px;'>
+          <code>
+            python -c "import spacy; nlp=spacy.load('en_core_web_sm'); doc=nlp('Angela Merkel lives in Berlin.'); print(' '.join(['/'.join([t.text, t.pos_, f'{t.dep_}:{t.head.i+1 if t.head.i != t.i else 0}', t.tag_, t.lemma_, t.ent_type_]) for t in doc]) + ' ' + ' '.join(['/'.join([f'/{e.start+1}-{e.end}/////', e.text.replace(' ','_'), e.label_, e.kb_id_]) for e in doc.ents]))"
+          </code>
+        </p>
+
+        <h6>Brat NLP:</h6>
+        <p style='margin-left: 20px; margin-right:20px;'>
+          Help for modifying the brat layout can be found here: <a href='http://brat.nlplab.org/embed.html#embedding-entity-coll'>http://brat.nlplab.org/embed.html</a>.
         </p>
 
         <h6>Credits:</h6>
