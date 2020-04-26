@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang='en'>
 <head>
   <title>a-sent-vis: Annotated Sentence Visualizer</title>
   <link rel='icon' href='img/favicon.ico' type='image/x-icon'/>
-  <link rel="stylesheet" href="lib/brat@7a58bbe/static/style-vis.css"/>
-  <link rel="stylesheet" href="lib/bootstrap-4.0.0/css/bootstrap.min.css">
-  <style type="text/css">
+  <link rel='stylesheet' href='lib/brat@7a58bbe/static/style-vis.css'/>
+  <link rel='stylesheet' href='lib/bootstrap-4.0.0/css/bootstrap.min.css'>
+  <style type='text/css'>
     /* define some style */
     body {
       font-family: Verdana, Helvetica, sans-serif;
@@ -63,19 +63,19 @@
 <body>
 <div id='titlecontainer'><span>a-sent-vis: Annotated Sentence Visualizer</span></div>
 <!-- Help Modal -->
-<div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="helpModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="helpModalLabel">Help</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+<div class='modal fade' id='helpModal' tabindex='-1' role='dialog' aria-labelledby='helpModalLabel' aria-hidden='true'>
+  <div class='modal-dialog modal-lg' role='document'>
+    <div class='modal-content'>
+      <div class='modal-header'>
+        <h5 class='modal-title' id='helpModalLabel'>Help</h5>
+        <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+          <span aria-hidden='true'>&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class='modal-body'>
         <!-- BEGIN: modal content -->
         <h6>Description:</h6>
-        <p style="margin-left: 20px; margin-right:20px;" align="justify">
+        <p style='margin-left: 20px; margin-right:20px;' align='justify'>
           An <strong>annotated sentence</strong> consists of tokens and annotations. Annotations can be <strong>attached</strong> to tokens or entered independently with token span information in the form begin-end (end is inclusive). Tokens and annotations are separated by one or more space characters. Annotations are separated by a single / (slash) character. Each annotation type is defined by the field position in the list of annotations. Annotations for a specific annotation type can be skippped (empty field or the _ (underscore) character as annotation value). Annotations are either span annotations or relation annotations. Relation annotations are defined by the annotation value (relation name) and the span id of it's head (ids are starting from 1) separated by a : (colon) character. Relations can only be connected to span annotations (never tokens) and are always connected to the annotation type directly in front of the relation annotation (hence, relation annotations must always occur after a span annotation). Head span ids are referring to the span annotation id of the annotation type. Relation annotations of the same type for the same span annotation (i.e. multiple heads) can be accumulated with ; (semicolon).
           <pre>
      word1/span11/span21 word2//span22 word3/span12 ...
@@ -87,28 +87,50 @@
         </p>
 
         <h6>Generate annotated sentence with spacy:</h6>
-        <p style="margin-left: 20px; margin-right:20px;">
+        <p style='margin-left: 20px; margin-right:20px;'>
           <code>
             python -c "import spacy; nlp=spacy.load('en_core_web_sm'); doc=nlp('Angela Merkel lives in Berlin.'); print(' '.join(['/'.join([t.text, t.pos_, f'{t.dep_}:{t.head.i+1 if t.head.i != t.i else 0}', t.tag_, t.lemma_, t.ent_type_]) for t in doc]) + ' ' + ' '.join(['/'.join([f'/{e.start+1}-{e.end}/////', e.text.replace(' ','_'), e.label_, e.kb_id_]) for e in doc.ents]))"
           </code>
         </p>
 
         <h6>Brat NLP:</h6>
-        <p style="margin-left: 20px; margin-right:20px;">
+        <p style='margin-left: 20px; margin-right:20px;'>
           Help for modifying the brat layout can be found here: <a href='http://brat.nlplab.org/embed.html#embedding-entity-coll'>http://brat.nlplab.org/embed.html</a>.
         </p>
 
         <h6>More Examples:</h6>
-        <p style="margin-left: 20px; margin-right:20px;">
+        <p style='margin-left: 20px; margin-right:20px;'>
           [
           &nbsp;
-          <a href="?q=The%2FDT%2Fdet%3A2%2Fthe+++++++++++++++dog%2FNN%2Fnsubj%3A3%2Fdog+++++++++++++++chases%2FVBZ%2Froot%3A0%2Fchase+++++++++++++++the%2FDT%2Fdet%3A5%2Fthe+++++++++++++++cat%2FNN%2Fdobj%3A3%2Fcat">1</a>,
+          <a href='?q=The%2FDT%2Fdet%3A2%2Fthe+++++++++++++++dog%2FNN%2Fnsubj%3A3%2Fdog+++++++++++++++chases%2FVBZ%2Froot%3A0%2Fchase+++++++++++++++the%2FDT%2Fdet%3A5%2Fthe+++++++++++++++cat%2FNN%2Fdobj%3A3%2Fcat'>1</a>,
           &nbsp;
-          <a href="?q=The%2FDET%2Fdet%3A5%2Fthe%20quick%2FADJ%2Famod%3A5%2Fquick%20brown%2FADJ%2Famod%3A5%2Fbrown%20fox%2FNOUN%2Fcompound%3A5%2Ffox%20jumps%2FNOUN%2FROOT%3A0%2Fjump%20over%2FADP%2Fprep%3A5%2Fover%20the%2FDET%2Fdet%3A9%2Fthe%20lazy%2FADJ%2Famod%3A9%2Flazy%20dog%2FNOUN%2Fpobj%3A6%2Fdog%20.%2FPUNCT%2Fpunct%3A5%2F.">2</a>,
+          <a href='?q=The%2FDET%2Fdet%3A5%2Fthe%20quick%2FADJ%2Famod%3A5%2Fquick%20brown%2FADJ%2Famod%3A5%2Fbrown%20fox%2FNOUN%2Fcompound%3A5%2Ffox%20jumps%2FNOUN%2FROOT%3A0%2Fjump%20over%2FADP%2Fprep%3A5%2Fover%20the%2FDET%2Fdet%3A9%2Fthe%20lazy%2FADJ%2Famod%3A9%2Flazy%20dog%2FNOUN%2Fpobj%3A6%2Fdog%20.%2FPUNCT%2Fpunct%3A5%2F.'>2</a>,
           &nbsp;
-          <a href="?q=Angela%2FPROPN%2Fcompound%3A2%2FNNP%2F%2F+Merkel%2FPROPN%2Fnsubj%3A9%2FNNP%2F%2F+%28%2FPUNCT%2Fpunct%3A2%2F-LRB-%2F%2F+the%2FDET%2Fdet%3A5%2FDT%2F%2F+chancellor%2FNOUN%2Fappos%3A2%2FNN%2F%2F+of%2FADP%2Fprep%3A5%2FIN%2F%2F+Germany%2FPROPN%2Fpobj%3A6%2FNNP%2F%2F+%29%2FPUNCT%2Fpunct%3A2%2F-RRB-%2F%2F+lives%2FVERB%2FROOT%3A0%2FVBZ%2F%2F+in%2FADP%2Fprep%3A9%2FIN%2F%2F+Berlin%2FPROPN%2Fpobj%3A10%2FNNP%2F%2F+.%2FPUNCT%2Fpunct%3A9%2F.%2F%2F+%2F1-2%2F%2F%2F%2F%2F%2F%2FAngela_Merkel%2FPERSON%2F+%2F7-7%2F%2F%2F%2F%2F%2F%2FGermany%2FGPE%2F+%2F11-11%2F%2F%2F%2F%2F%2F%2FBerlin%2FGPE%2F">3</a>
+          <a href='?q=Angela%2FPROPN%2Fcompound%3A2%2FNNP%2F%2F+Merkel%2FPROPN%2Fnsubj%3A9%2FNNP%2F%2F+%28%2FPUNCT%2Fpunct%3A2%2F-LRB-%2F%2F+the%2FDET%2Fdet%3A5%2FDT%2F%2F+chancellor%2FNOUN%2Fappos%3A2%2FNN%2F%2F+of%2FADP%2Fprep%3A5%2FIN%2F%2F+Germany%2FPROPN%2Fpobj%3A6%2FNNP%2F%2F+%29%2FPUNCT%2Fpunct%3A2%2F-RRB-%2F%2F+lives%2FVERB%2FROOT%3A0%2FVBZ%2F%2F+in%2FADP%2Fprep%3A9%2FIN%2F%2F+Berlin%2FPROPN%2Fpobj%3A10%2FNNP%2F%2F+.%2FPUNCT%2Fpunct%3A9%2F.%2F%2F+%2F1-2%2F%2F%2F%2F%2F%2F%2FAngela_Merkel%2FPERSON%2F+%2F7-7%2F%2F%2F%2F%2F%2F%2FGermany%2FGPE%2F+%2F11-11%2F%2F%2F%2F%2F%2F%2FBerlin%2FGPE%2F'>3</a>
           &nbsp;
           ]
+        </p>
+
+        <h6>Credits:</h6>
+        <p style='margin-left: 20px; margin-right:20px;''>
+          This website was built by using:
+          <ul>
+            <li>
+              parts of the <a href='http://brat.nlplab.org/'>brat nlp</a> framework (<a href='https://github.com/nlplab/brat'>git</a>)
+            </li>
+            <li>
+              parts of the source code of <a href='http://brat.nlplab.org/embed.html'>http://brat.nlplab.org/embed.html</a>
+            </li>
+            <li>
+              the <a href='https://github.com/exupero/saveSvgAsPng'>saveSvgAsPng</a> project
+            </li>
+            <li>
+              <a href='https://jquery.com/'>jQuery</a>
+            </li>
+            <li>
+              <a href='https://getbootstrap.com/'>Bootstrap</a>
+            </li>
+          </ul>
         </p>
         <!-- END: modal content -->
       </div>
@@ -116,35 +138,35 @@
   </div>
 </div>
 
-<div id="loadercontainer">
-  <img id="loaderimage" src="img/noload.svg" height="50px">
+<div id='loadercontainer'>
+  <img id='loaderimage' src='img/noload.svg' height='50px'>
 </div>
-<div id="maincontainer">
-  <div id="visualizecontainer" class="visualizecontainer">
-    <form method="GET" id="visualizeForm">
-      <div id="helpcontainer">
-        <a href="" data-toggle="modal" data-target="#helpModal">Show Help</a><br />
-        <a href="?q=The%2FDT%2Fdet%3A2%2Fthe+dog%2FNN%2Fnsubj%3A3%2Fdog+chases%2FVBZ%2Froot%3A0%2Fchase+the%2FDT%2Fdet%3A5%2Fthe+cat%2FNN%2Fdobj%3A3%2Fcat">Show Example</a><br />
+<div id='maincontainer'>
+  <div id='visualizecontainer' class='visualizecontainer'>
+    <form method='GET' id='visualizeForm'>
+      <div id='helpcontainer'>
+        <a href='' data-toggle='modal' data-target='#helpModal'>Show Help</a><br />
+        <a href='?q=The%2FDT%2Fdet%3A2%2Fthe+dog%2FNN%2Fnsubj%3A3%2Fdog+chases%2FVBZ%2Froot%3A0%2Fchase+the%2FDT%2Fdet%3A5%2Fthe+cat%2FNN%2Fdobj%3A3%2Fcat'>Show Example</a><br />
       </div>  
-      <input type="text"
-        class="form-control"
-        id="sentenceinput"
-        name="q"
-        placeholder="&lt;Enter annotated sentence&gt; e.g. The/DT/det:2/the dog/NN/nsubj:3/dog chases/VBZ/root:0/chase the/DT/det:5/the cat/NN/dobj:3/cat"
+      <input type='text'
+        class='form-control'
+        id='sentenceinput'
+        name='q'
+        placeholder='&lt;Enter annotated sentence&gt; e.g. The/DT/det:2/the dog/NN/nsubj:3/dog chases/VBZ/root:0/chase the/DT/det:5/the cat/NN/dobj:3/cat'
       />
     </form>
   </div>
 
-  <div id="resultcontainer" class="resultcontainer">
-    <div id="query" class="query"></div>
+  <div id='resultcontainer' class='resultcontainer'>
+    <div id='query' class='query'></div>
   </div>
 
-  <div id="live-edit-container" style="display: none; margin-top: 1cm;">
-    <textarea id="coll-input" style="display:block;float:left;width:40%;height:400px;font-size:11px;border:2px inset" placeholder="Enter JSON for the collection object here..."></textarea>
-    <textarea id="doc-input" style="display:block;float:right;width:55%;height:400px;font-size:11px;border:2px inset" placeholder="Enter JSON for the document object here..."></textarea>  
+  <div id='live-edit-container' style='display: none; margin-top: 1cm;'>
+    <textarea id='coll-input' style='display:block;float:left;width:40%;height:400px;font-size:11px;border:2px inset' placeholder='Enter JSON for the collection object here...'></textarea>
+    <textarea id='doc-input' style='display:block;float:right;width:55%;height:400px;font-size:11px;border:2px inset' placeholder='Enter JSON for the document object here...'></textarea>  
   </div>
 
-  <canvas id="canvas"></canvas>
+  <canvas id='canvas'></canvas>
 </div>
 
 <!-- the magic starts here -->
@@ -152,7 +174,7 @@
 <script type='text/javascript' src='lib/bootstrap-4.0.0/js/bootstrap.min.js'></script>
 <script type='text/javascript' src='lib/brat@7a58bbe/client/lib/head.load.min.js'></script>
 <script type='text/javascript' src='js/brat-embed.js'></script>
-<script type="text/javascript" src='lib/saveSvgAsPng@9648466/saveSvgAsPng.js'></script>
+<script type='text/javascript' src='lib/saveSvgAsPng@9648466/saveSvgAsPng.js'></script>
 <script type='text/javascript'>
   const embedelem = 'render-brat';
   let live_edit_available = false;
@@ -306,7 +328,7 @@
     // define process sentence function, which prepares and fills the result container
     var process_sentence = function(sentence) { 
       switchloader(true);
-      var url = "?q=" + encodeURIComponent(sentence);
+      var url = '?q=' + encodeURIComponent(sentence);
       $('#resultcontainer').append(`
         <div class='result' id='result-parsed'><p>
           <a href='${url}'>${sentence}</a>
