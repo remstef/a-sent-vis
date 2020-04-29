@@ -82,13 +82,13 @@
         <!-- BEGIN: modal content -->
         <h6>Description:</h6>
         <p style='margin-left: 20px; margin-right:20px;' align='justify'>
-          An <strong>annotated sentence</strong> consists of tokens and annotations. Annotations can be <strong>attached</strong> to tokens or entered <strong>independently</strong> with token span information in the form <strong>begin-end</strong> (end is inclusive). Tokens and annotations are separated by one or more space characters. Annotations are separated by a single / (slash) character. Each <strong>annotation type</strong> is defined by the field position in the list of annotations. Annotations for a specific annotation type can be skippped (empty field or explicitly indicated by a single _ (underscore) character as annotation value). Annotations are either <strong>span annotations or relation annotations</strong>. Relation annotations are defined by the annotation value (relation name) and the span id of it's head (ids are starting from 1) separated by a : (colon) character. Relations can only be connected to span annotations (never tokens) and are always connected to the annotation type directly in front of the relation annotation (hence, relation annotations must always occur after a non-empty span annotation). Head span ids are referring to the span annotation with the given id and the same annotation type (field). Relation annotations of the same type for the same span annotation (i.e. multiple heads) can be accumulated with ; (semicolon).
+          An <strong>annotated sentence</strong> consists of <strong>annotated tokens</strong>, which can be tokens, tokens with annotations, or stand-alone annotations. Annotations can be <strong>attached</strong> to tokens or entered <strong>independently</strong> with token span information in the form of <strong>begin-end</strong> (end is inclusive, ids start with 1). Annotated tokens are separated by one or more space characters. Annotations are separated by a single / (slash) character. Each <strong>annotation type</strong> is defined by the field position in the list of annotations. Annotations for a specific annotation type can be skippped (empty field or explicitly indicated by a single _ (underscore) character as annotation value). Annotations are either <strong>span annotations or relation annotations</strong>. Relation annotations are defined by the annotation value (relation name) and the span id (annotated token id) of its head (ids are starting from 1) separated by a : (colon) character. Relations can only be connected to span annotations (never tokens) and are always connected to the annotation type directly in front of the relation annotation (hence, relation annotations must always occur after a non-empty span annotation). Head span ids are referring to the span annotation with the given id and the same annotation type (field). Relation annotations of the same type for the same span annotation (i.e. multiple heads) can be accumulated with ; (semicolon).
           <pre>
      word1/span11/span21 word2//span22 word3/span12 ...
 
      word1/span11/rel1:3/span2/rel2:2 word2/_/_/span22 word3/span12 ...
 
-     word1 word2 word3 word4 word5 /1-2/span1/rel1:2;rel2:3 /3-3/span2 /4-5/span3 ...
+     word1 word2 word3 word4 word5 /1-2/span1/rel1:7;rel2:8 /3-3/span2 /4-5/span3 ...
           </pre>
         </p>
 
@@ -188,7 +188,6 @@
     <textarea id='doc-input' style='display:block;float:right;width:55%;height:400px;font-size:11px;border:2px inset' placeholder='Enter JSON for the document object here...'></textarea>  
   </div>
 
-  <canvas id='canvas'></canvas>
 </div>
 
 <!-- the magic starts here -->
@@ -263,7 +262,7 @@
     dispatcher.on('renderError: Fatal', renderError);
 
     const collInputHandler = function() {
-      var collJSON;
+      let collJSON;
       try {
         collJSON = JSON.parse(collInput.val());
         collInput.css({'border': '2px inset'});
@@ -283,7 +282,7 @@
     };
 
     const docInputHandler = function() {
-      var docJSON;
+      let docJSON;
       try {
         docJSON = JSON.parse(docInput.val());
         docInput.css({'border': '2px inset'});
@@ -324,7 +323,7 @@
 
     // add title and icon 
     w.document.title = title;
-    var icon = w.document.createElement('link');
+    const icon = w.document.createElement('link');
     icon.setAttribute('rel', 'icon');
     icon.setAttribute('href', 'img/favicon.ico');
     icon.setAttribute('type', 'image/x-icon');
@@ -348,9 +347,9 @@
   // public static void main
   $(document).ready(function(){
     // define process sentence function, which prepares and fills the result container
-    var process_sentence = function(sentence) { 
+    const process_sentence = function(sentence) { 
       switchloader(true);
-      var url = '?q=' + encodeURIComponent(sentence);
+      const url = '?q=' + encodeURIComponent(sentence);
       $('#resultcontainer').append(`
         <div class='result' id='result-parsed'><p>
           <a href='${url}'>${sentence}</a>
@@ -364,7 +363,7 @@
           <a href='#save' onclick='save_brat_svg_as_svgimage();'>Save SVG</a>
         </p></div>`);
       $('#resultcontainer').append(`<div class='result' id='${embedelem}'></div>`);
-      var callback = function(dispatcher, collData, docData){
+      const callback = function(dispatcher, collData, docData){
         console.log('... Brat rendering finished.');
         if(!live_edit_available){
           console.log('... setting up live edit.');
